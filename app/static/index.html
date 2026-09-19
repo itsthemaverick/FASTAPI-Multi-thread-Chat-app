@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI Real-Time Chat</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- Join Modal Overlay -->
+    <div id="joinModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+                <h2>Welcome to FastAPI Chat</h2>
+                <p>Join a room and start chatting in real-time</p>
+            </div>
+            <form id="joinForm" onsubmit="handleJoin(event)">
+                <div class="input-group">
+                    <label for="usernameInput"><i class="fa-solid fa-user"></i> Choose your Nickname</label>
+                    <input type="text" id="usernameInput" placeholder="e.g. PyDev_99" maxlength="20" required autocomplete="off">
+                </div>
+
+                <div class="input-group">
+                    <label for="roomSelect"><i class="fa-solid fa-door-open"></i> Select Chat Room</label>
+                    <select id="roomSelect" required>
+                        <option value="general"># general - General discussion</option>
+                        <option value="python"># python - Python & Frameworks</option>
+                        <option value="tech"># tech - Tech & AI trends</option>
+                        <option value="lounge"># lounge - Casual banter</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span>Enter Chat Room</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application Layout -->
+    <div class="app-container">
+        
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <div class="brand-info">
+                    <h1>FastAPI Chat</h1>
+                    <span class="badge">WebSockets</span>
+                </div>
+            </div>
+
+            <!-- User Info Bar -->
+            <div class="user-profile-card">
+                <div class="avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <span class="username-display" id="currentUserDisplay">Guest</span>
+                    <span class="user-status"><i class="fa-solid fa-circle online"></i> Online</span>
+                </div>
+            </div>
+
+            <!-- Navigation / Rooms -->
+            <div class="sidebar-section">
+                <div class="section-title">
+                    <span>Chat Rooms</span>
+                </div>
+                <ul class="room-list" id="roomList">
+                    <!-- Dynamic room items populated by JS -->
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="btn-leave" onclick="leaveChat()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Leave Room</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-main">
+            <!-- Header -->
+            <header class="chat-header">
+                <div class="room-title-area">
+                    <h2 id="currentRoomTitle"># general</h2>
+                    <p id="currentRoomDesc">General discussion room for everyone</p>
+                </div>
+                <div class="room-stats">
+                    <div class="connection-status connected" id="connectionStatus">
+                        <span class="status-dot"></span>
+                        <span id="statusText">Connected</span>
+                    </div>
+                    <div class="active-users-pill">
+                        <i class="fa-solid fa-users"></i>
+                        <span id="activeCount">1 user</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Chat Message Feed -->
+            <div class="chat-feed" id="chatFeed">
+                <!-- Chat messages appended dynamically here -->
+            </div>
+
+            <!-- Message Input Area -->
+            <footer class="chat-input-area">
+                <form id="messageForm" onsubmit="sendMessage(event)">
+                    <div class="input-wrapper">
+                        <input type="text" id="messageInput" placeholder="Type a message... (Press Enter to send)" autocomplete="off" required>
+                        <button type="submit" class="btn-send" id="sendBtn" title="Send message">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
